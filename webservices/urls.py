@@ -15,38 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-
-from django.urls import path
-from dogapp.views import dog_service
-
-from dogapp.views import rest_get_dog
-from django.contrib.auth import views as auth_views
-
-
-
-from graphene_django.views import GraphQLView
-from django.views.decorators.csrf import csrf_exempt
-from dogapp.schema import schema
-
-from dogapp.views import DogDetailAPIView
-
-
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+from django.urls import path, include
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('soap/dogservice/', dog_service),
-    path('rest/dog/<int:dog_id>/', rest_get_dog, name='rest_get_dog'),
-    path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=True, schema=schema))),
-    path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
-    path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('rest/dog/<int:pk>/', DogDetailAPIView.as_view(), name='rest_get_dog'),
-
+    path('', include('dogapi.urls')),
 ]
+
